@@ -1,4 +1,5 @@
 from utils.llm import GeminiLLM
+from utils.formatting import extract_code_block
 
 llm = GeminiLLM()
 
@@ -11,11 +12,12 @@ Task:
 {task}
 
 Rules:
-- Only return Python code
+- Only return Python code without '```python' and '```'
 - No explanations
 """
 
 
 def generate_code(task: str) -> str:
     prompt = CODER_PROMPT.format(task=task)
-    return llm.generate(prompt)
+    response = llm.generate(prompt)
+    return extract_code_block(response)

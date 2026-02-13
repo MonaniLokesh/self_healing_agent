@@ -1,15 +1,20 @@
-import google.generativeai as genai
-from config.settings import GEMINI_API_KEY, MODEL_NAME
-
-
-genai.configure(api_key=GEMINI_API_KEY)
+from groq import Groq
+from config.settings import GROQ_API_KEY, MODEL_NAME
 
 
 class GeminiLLM:
 
     def __init__(self):
-        self.model = genai.GenerativeModel(MODEL_NAME)
+        self.client = Groq(api_key=GROQ_API_KEY)
 
     def generate(self, prompt: str) -> str:
-        response = self.model.generate_content(prompt)
-        return response.text
+        chat_completion = self.client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model=MODEL_NAME,
+        )
+        return chat_completion.choices[0].message.content
