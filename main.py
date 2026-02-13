@@ -8,14 +8,17 @@ from config.settings import MAX_ITERATIONS
 def self_heal(task):
 
     code = generate_code(task)
+    print("Code:", code)
 
     for i in range(MAX_ITERATIONS):
 
         tests = generate_tests(code)
+        print("Tests:", tests)
         rc, logs = run_tests(code, tests)
+        print("Logs:", logs)
 
         if rc == 0:
-            print("✅ Tests Passed")
+            print("Tests Passed")
             return code
 
         print(f"Iteration {i+1} failed. Debugging...")

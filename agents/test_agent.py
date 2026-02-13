@@ -1,4 +1,5 @@
 from utils.llm import GeminiLLM
+from utils.formatting import extract_code_block
 
 llm = GeminiLLM()
 
@@ -17,4 +18,5 @@ Return only pytest code.
 
 def generate_tests(code: str) -> str:
     prompt = TEST_PROMPT.format(code=code)
-    return llm.generate(prompt)
+    response = llm.generate(prompt)
+    return extract_code_block(response)

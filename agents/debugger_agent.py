@@ -1,4 +1,5 @@
 from utils.llm import GeminiLLM
+from utils.formatting import extract_code_block
 
 llm = GeminiLLM()
 
@@ -18,4 +19,5 @@ Return only corrected Python code.
 
 def debug_code(code, logs):
     prompt = DEBUG_PROMPT.format(code=code, logs=logs)
-    return llm.generate(prompt)
+    response = llm.generate(prompt)
+    return extract_code_block(response)
